@@ -30,5 +30,20 @@ public class UserController {
         }
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/find")
+    public ResponseEntity<UserDto> findUser(@RequestParam String value) {
+        UserDto user = service.findUser(value);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
+    }
+    @PostMapping("/save")
+    public ResponseEntity<Void> saveUser(@RequestBody UserDto dto) {
+        boolean ok = service.saveUser(dto);
+        return ok ? ResponseEntity.ok().build() : ResponseEntity.status(400).build();
+    }
+
 }
 

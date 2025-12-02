@@ -28,8 +28,38 @@ public class DBManager {
                     "id INTEGER" +
                     ")";
             stmt.executeUpdate(sql);
+
+            // NEW: groups
+            String sqlGroups = "CREATE TABLE IF NOT EXISTS groups (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "name TEXT NOT NULL, " +
+                    "owner TEXT NOT NULL" +
+                    ")";
+            stmt.executeUpdate(sqlGroups);
+
+            // NEW: group_members
+            String sqlGroupMembers = "CREATE TABLE IF NOT EXISTS group_members (" +
+                    "group_id INTEGER NOT NULL, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "PRIMARY KEY (group_id, user_id)" +
+                    ")";
+            stmt.executeUpdate(sqlGroupMembers);
+
+            String sqlFeed = "CREATE TABLE IF NOT EXISTS feed_messages (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "group_id INTEGER NOT NULL, " +
+                    "title TEXT NOT NULL, " +
+                    "content TEXT, " +
+                    "pdf_path TEXT, " +
+                    "created_by INTEGER NOT NULL, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.executeUpdate(sqlFeed);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+
 }

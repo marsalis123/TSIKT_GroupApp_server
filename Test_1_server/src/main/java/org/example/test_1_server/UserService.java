@@ -52,4 +52,50 @@ public class UserService {
         }
         return null;
     }
+
+    public UserDto findUser(String value) {
+        try (Connection conn = DBManager.getConnection()) {
+            String sql = "SELECT * FROM users WHERE username = ? OR email = ? OR id = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, value);
+            pstmt.setString(2, value);
+            try {
+                pstmt.setInt(3, Integer.parseInt(value));
+            } catch (NumberFormatException ex) {
+                pstmt.setInt(3, -1);
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new UserDto(
+                        rs.getInt("id"),
+                        rs.getString("username"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getInt("age"),
+                        rs.getString("photo")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public boolean saveUser(UserDto dto) {
+        try (Connection conn = DBManager.getConnection()) {
+            String sql = "UPDATE users SET name = ?, email = ?, age = ?, photo = ? WHERE username = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dto.name);
+            pstmt.setString(2, dto.email);
+            pstmt.setInt(3, dto.age);
+            pstmt.setString(4, dto.photoPath);
+            pstmt.setString(5, dto.username);
+            int rows = pstmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
