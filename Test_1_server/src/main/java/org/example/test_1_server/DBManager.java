@@ -55,6 +55,44 @@ public class DBManager {
                     "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
                     ")";
             stmt.executeUpdate(sqlFeed);
+            // jobs
+            String sqlJobs = "CREATE TABLE IF NOT EXISTS jobs (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "title TEXT NOT NULL, " +
+                    "description TEXT, " +
+                    "group_id INTEGER NOT NULL, " +
+                    "status TEXT NOT NULL, " +
+                    "created_by INTEGER NOT NULL, " +
+                    "assigned_to INTEGER NOT NULL, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.executeUpdate(sqlJobs);
+
+            // job_logs
+            String sqlJobLogs = "CREATE TABLE IF NOT EXISTS job_logs (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "job_id INTEGER NOT NULL, " +
+                    "user_id INTEGER NOT NULL, " +
+                    "work_text TEXT, " +
+                    "commit_msg TEXT, " +
+                    "pdf_path TEXT, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.executeUpdate(sqlJobLogs);
+
+            String sqlCal = "CREATE TABLE IF NOT EXISTS calendar_events (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "group_id INTEGER NOT NULL, " +
+                    "created_by INTEGER NOT NULL, " +
+                    "title TEXT NOT NULL, " +
+                    "description TEXT, " +
+                    "date TEXT NOT NULL, " +
+                    "color TEXT, " +
+                    "notify INTEGER NOT NULL, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.executeUpdate(sqlCal);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
