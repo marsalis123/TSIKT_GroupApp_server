@@ -19,15 +19,19 @@ public class DBManager {
              Statement stmt = conn.createStatement()) {
 
             String sql = "CREATE TABLE IF NOT EXISTS users (" +
-                    "username TEXT PRIMARY KEY, " +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +      // interné ID
+                    "public_id INTEGER NOT NULL UNIQUE, " +         // tvoj 6‑miestny kód
+                    "username TEXT NOT NULL UNIQUE, " +
                     "password TEXT NOT NULL, " +
                     "name TEXT, " +
                     "email TEXT, " +
                     "age INTEGER, " +
-                    "photo TEXT, " +
-                    "id INTEGER" +
+                    "photo TEXT" +
                     ")";
             stmt.executeUpdate(sql);
+
+
+
 
             // NEW: groups
             String sqlGroups = "CREATE TABLE IF NOT EXISTS groups (" +
